@@ -1,26 +1,95 @@
 @import "tailwindcss";
+@import "@heroui/styles";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand */
+  --color-brand-navy: #101B33;
+  --color-brand-gold: #B8860B;
+
+  /* Surfaces */
+  --color-surface: #F7F5F0;
+  --color-surface-raised: #FFFFFF;
+  --color-surface-sunken: #EFEBE2;
+
+  /* Text */
+  --color-text-primary: #1A1F2B;
+  --color-text-secondary: #5B6472;
+  --color-text-inverse: #F7F5F0;
+
+  /* Borders */
+  --color-border: #E2DED3;
+  --color-border-strong: #C9C3B4;
+
+  /* Status */
+  --color-success: #1E7A4C;
+  --color-success-bg: #E7F4ED;
+  --color-warning: #B8860B;
+  --color-warning-bg: #FBF3DF;
+  --color-danger: #C0392B;
+  --color-danger-bg: #FBEAE8;
+  --color-info: #2563EB;
+  --color-info-bg: #EAF1FE;
+
+  /* Typography (fallback — overridden by loaded fonts via --font-*-loaded) */
+  --font-display: var(--font-display-loaded, "Fraunces", serif);
+  --font-body: var(--font-body-loaded, "Public Sans", sans-serif);
+  --font-mono: var(--font-mono-loaded, "IBM Plex Mono", monospace);
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  /* Shadow */
+  --shadow-card: 0 1px 3px rgba(16, 27, 51, 0.08), 0 1px 2px rgba(16, 27, 51, 0.04);
+}
+
+[data-theme="dark"] {
+  --color-surface: #0B1220;
+  --color-surface-raised: #101B33;
+  --color-surface-sunken: #070B14;
+  --color-text-primary: #F0EEE8;
+  --color-text-secondary: #9AA3B2;
+  --color-text-inverse: #F0EEE8;
+  --color-border: #232B3D;
+  --color-border-strong: #323C52;
+  --color-success-bg: rgba(30, 122, 76, 0.15);
+  --color-warning-bg: rgba(184, 134, 11, 0.15);
+  --color-danger-bg: rgba(192, 57, 43, 0.15);
+  --color-info-bg: rgba(37, 99, 235, 0.15);
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-brand-navy: var(--color-brand-navy);
+  --color-brand-gold: var(--color-brand-gold);
+  --color-surface: var(--color-surface);
+  --color-surface-raised: var(--color-surface-raised);
+  --color-surface-sunken: var(--color-surface-sunken);
+  --color-ink: var(--color-text-primary);
+  --color-ink-secondary: var(--color-text-secondary);
+  --color-ink-inverse: var(--color-text-inverse);
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+  --color-success: var(--color-success);
+  --color-success-bg: var(--color-success-bg);
+  --color-warning: var(--color-warning);
+  --color-warning-bg: var(--color-warning-bg);
+  --color-danger: var(--color-danger);
+  --color-danger-bg: var(--color-danger-bg);
+  --color-info: var(--color-info);
+  --color-info-bg: var(--color-info-bg);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --shadow-card: var(--shadow-card);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
 }
