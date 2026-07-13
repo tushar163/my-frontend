@@ -6,11 +6,9 @@ import { useCallback, useEffect, useState } from "react";
 import { CustomTable } from "@/components/atoms/CustomTable";
 import FormModal from "@/components/molecules/FormModal";
 import useTableControls from "@/hooks/useTableControls";
-import { deleteHotel, deleteRoom, getHotels } from "@/service/hotels";
-import { getAllHotelsAdmin, toggleHotelStatus } from "@/service/admin";
-import HotelForm from "../../admin/hotels/HotelForm";
-import RoomForm from "../../admin/hotels/rooms/RoomForm";
-
+import { deleteHotel, getMyHotels, updateHotel } from "@/service/hotels";
+import HotelForm from "./HotelForm";
+import RoomForm from "../rooms/RoomForm";
 
 const columns = [
   { id: "name", name: "Hotel Name", sortable: true },
@@ -19,7 +17,7 @@ const columns = [
   { id: "actions", name: "Actions" },
 ];
 
-export default function HotelsPage() {
+export default function OwnerHotels() {
   const [hotels, setHotels] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -39,7 +37,7 @@ export default function HotelsPage() {
   const fetchData = useCallback(async () => {
     setIsLoading(true);
     try {
-      const result = await getHotels({
+      const result = await getMyHotels({
         page,
         limit: rowsPerPage,
         search: filterValue || undefined,
@@ -47,7 +45,7 @@ export default function HotelsPage() {
       setHotels(result.data?.hotels || result.hotels || []);
       setTotalRecords(result.meta?.total ?? result.data?.hotels?.length ?? 0);
     } catch {
-      toast.danger("Failed to fetch hotels");
+      toast.danger("Failed to fetch your hotels");
     } finally {
       setIsLoading(false);
     }
@@ -68,7 +66,7 @@ export default function HotelsPage() {
 
   const handleToggleStatus = async (hotel) => {
     try {
-      await toggleHotelStatus(hotel.id);
+      await updateHotel(hotel.id, { isActive: !hotel.isActive });
       toast.success(`Hotel ${hotel.isActive ? "deactivated" : "activated"}`);
       fetchData();
     } catch {
@@ -116,7 +114,7 @@ export default function HotelsPage() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-lg font-display font-semibold text-ink">Hotels</h1>
+        <h1 className="text-lg font-display font-semibold text-ink">My Hotels</h1>
         <div className="flex items-center gap-3">
           <input
             className="rounded-md border border-border bg-surface-raised px-3 py-1.5 text-sm text-ink placeholder:text-ink-secondary outline-none"

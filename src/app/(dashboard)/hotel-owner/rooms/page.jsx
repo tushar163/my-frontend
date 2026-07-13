@@ -7,7 +7,8 @@ import { CustomTable } from "@/components/atoms/CustomTable";
 import FormModal from "@/components/molecules/FormModal";
 import useTableControls from "@/hooks/useTableControls";
 import { getHotels, getRooms, deleteRoom } from "@/service/hotels";
-import RoomForm from "../../admin/hotels/rooms/RoomForm";
+import RoomForm from "./RoomForm";
+
 
 const columns = [
   { id: "roomType", name: "Room Type", sortable: true },

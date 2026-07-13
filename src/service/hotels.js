@@ -1,5 +1,11 @@
 import api from "@/lib/axios";
 
+export async function getMyHotels(params = {}) {
+  const { data } = await api.get("/hotels/me/listings", { params });
+  if (!data.success) throw new Error(data.message || "Failed to fetch your hotels");
+  return data;
+}
+
 export async function getHotels(params = {}) {
   const { data } = await api.get("/hotels", { params });
   if (!data.success) throw new Error(data.message || "Failed to fetch hotels");
