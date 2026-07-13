@@ -35,6 +35,11 @@ export async function updateRoom(roomId, body) {
   if (!data.success) throw new Error(data.message || "Failed to update room");
   return data;
 }
+export async function getRooms(hotelId, params = {}) {
+  const { data } = await api.get(`/hotels/rooms/${hotelId}`, { params });
+  if (!data.success) throw new Error(data.message || "Failed to fetch rooms");
+  return data;
+}
 
 export async function deleteRoom(roomId) {
   const { data } = await api.delete(`/hotels/rooms/${roomId}`);
