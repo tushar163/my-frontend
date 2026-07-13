@@ -39,6 +39,7 @@ export const logout = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       await api.post("/auth/logout");
+      
     } catch (err) {
       // swallow — still clear local state
     } finally {

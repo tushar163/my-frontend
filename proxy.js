@@ -1,3 +1,4 @@
+// proxy.js  (place at project root, or inside src/ alongside your app or pages dir)
 import { NextResponse } from "next/server";
 
 /* Layer 1 (this file): route access, the real security boundary.
@@ -26,6 +27,12 @@ export function proxy(request) {
   const token = request.cookies.get("auth_token")?.value;
   const role = request.cookies.get("user_role")?.value;
 
+  // Root path — send logged-in users to their dashboard, everyone else to /login
+  if (pathname === "/") {
+    const destination = token ? (ROLE_HOME[role] || "/dashboard") : "/login";
+    return NextResponse.redirect(new URL(destination, request.url));
+  }
+
   // Guest-only pages — redirect to role home if already logged in
   if (GUEST_ONLY_ROUTES.includes(pathname)) {
     if (token) {
@@ -48,6 +55,13 @@ export function proxy(request) {
       }
       return NextResponse.next();
     }
+  }
+
+  // Anything else not logged in — send to /login by default
+  if (!token) {
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("redirect", pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
   return NextResponse.next();
