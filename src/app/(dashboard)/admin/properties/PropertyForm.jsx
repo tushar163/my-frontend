@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, FieldError, Input, Label, ListBox, Select, TextField, toast } from "@heroui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createProperty, updateProperty } from "@/service/properties";
 
 const LISTING_TYPES = [
@@ -52,21 +52,60 @@ function validateField(name, value) {
 
 export default function PropertyForm({ method, setIsOpen, selectedRow, onSuccess }) {
   const [form, setForm] = useState({
-    title: selectedRow?.title || "",
-    description: selectedRow?.description || "",
-    listingType: selectedRow?.listingType || "",
-    propertyType: selectedRow?.propertyType || "",
-    price: selectedRow?.price || "",
-    area: selectedRow?.area || "",
-    bedrooms: selectedRow?.bedrooms || "",
-    bathrooms: selectedRow?.bathrooms || "",
-    furnished: selectedRow?.furnished ?? false,
-    address: selectedRow?.address || "",
-    city: selectedRow?.city || "",
-    state: selectedRow?.state || "",
-    country: selectedRow?.country || "",
-    amenities: selectedRow?.amenities?.join(", ") || "",
+    title: "",
+    description: "",
+    listingType: "",
+    propertyType: "",
+    price: "",
+    area: "",
+    bedrooms: "",
+    bathrooms: "",
+    furnished: false,
+    address: "",
+    city: "",
+    state: "",
+    country: "",
+    amenities: "",
   });
+  console.log("selectedRow", selectedRow , method);
+  useEffect(() => {
+    if (selectedRow && method === "Edit") {
+      setForm({
+        title: selectedRow.title || "",
+        description: selectedRow.description || "",
+        listingType: selectedRow.listingType || "",
+        propertyType: selectedRow.propertyType || "",
+        price: selectedRow.price || "",
+        area: selectedRow.area || "",
+        bedrooms: selectedRow.bedrooms || "",
+        bathrooms: selectedRow.bathrooms || "",
+        furnished: selectedRow.furnished ?? false,
+        address: selectedRow.address || "",
+        city: selectedRow.city || "",
+        state: selectedRow.state || "",
+        country: selectedRow.country || "",
+        amenities: selectedRow.amenities?.join(", ") || "",
+      });
+    } else {
+      setForm({
+        title: "",
+        description: "",
+        listingType: "",
+        propertyType: "",
+        price: "",
+        area: "",
+        bedrooms: "",
+        bathrooms: "",
+        furnished: false,
+        address: "",
+        city: "",
+        state: "",
+        country: "",
+        amenities: "",
+      });
+    }
+
+  }, [selectedRow , method]);
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
 

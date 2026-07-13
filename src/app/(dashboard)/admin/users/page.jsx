@@ -14,6 +14,8 @@ const columns = [
   { id: "actions", name: "Actions" },
 ];
 
+const SEARCH_DEBOUNCE_MS = 400;
+
 export default function UsersPage() {
   const [users, setUsers] = useState([]);
   const [totalRecords, setTotalRecords] = useState(0);
@@ -26,13 +28,31 @@ export default function UsersPage() {
     filterValue, onSearchChange, onClear,
   } = useTableControls(users, totalRecords);
 
+  // Debounced copy of filterValue — the input above is bound to `filterValue`
+  // directly (so it feels instant), but data-fetching depends on this instead.
+  const [debouncedFilterValue, setDebouncedFilterValue] = useState(filterValue);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebouncedFilterValue(filterValue);
+    }, SEARCH_DEBOUNCE_MS);
+
+    return () => clearTimeout(timeoutId);
+  }, [filterValue]);
+
+  // Reset to page 1 whenever a new search term actually takes effect.
+  useEffect(() => {
+    setPage(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedFilterValue]);
+
   const fetchData = useCallback(async () => {
     setIsLoading(true);
     try {
       const result = await getAllUsers({
         page,
         limit: rowsPerPage,
-        search: filterValue || undefined,
+        search: debouncedFilterValue || undefined,
       });
       setUsers(result.data.users || []);
       setTotalRecords(result.meta?.total ?? result.data.users?.length ?? 0);
@@ -41,7 +61,7 @@ export default function UsersPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [page, rowsPerPage, filterValue]);
+  }, [page, rowsPerPage, debouncedFilterValue]);
 
   useEffect(() => { fetchData(); }, [fetchData]);
 

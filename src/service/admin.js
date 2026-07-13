@@ -25,7 +25,7 @@ export async function getAllPropertiesAdmin(params = {}) {
 }
 
 export async function getAllHotelsAdmin(params = {}) {
-  const { data } = await api.get("/admin/hotels", { params });
+  const { data } = await api.get("/hotels", { params });
   if (!data.success) throw new Error(data.message || "Failed to fetch hotels");
   return data;
 }

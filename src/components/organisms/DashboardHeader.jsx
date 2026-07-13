@@ -46,7 +46,11 @@ export default function DashboardHeader({ activeModule, onModuleChange, onMenuTo
         : `/admin/${mod}`;
     router.push(firstItem);
   };
-
+const handleLogout = () => {
+    logout();
+    router.push("/login");
+    setUserMenuOpen(false);
+}
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-border bg-surface-raised px-4">
       <div className="flex items-center gap-3">
@@ -126,7 +130,7 @@ export default function DashboardHeader({ activeModule, onModuleChange, onMenuTo
                   Profile
                 </button>
                 <button
-                  onClick={() => { setUserMenuOpen(false); logout(); }}
+                  onClick={handleLogout}
                   className="flex w-full items-center gap-2 px-3 py-2 text-sm text-danger hover:bg-danger-bg transition-colors"
                 >
                   <LogOut className="size-4" />

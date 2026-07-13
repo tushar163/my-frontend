@@ -9,7 +9,7 @@ export default function Providers({ children }) {
   return (
     <Provider store={store}>
         <AuthInitializer>{children}</AuthInitializer>
-      <Toast.Provider swipeDirection="right" placement="bottom-right" duration={3000} />
+      <Toast.Provider swipeDirection="right" placement="bottom end" duration={3000} />
       
     </Provider>
   );
